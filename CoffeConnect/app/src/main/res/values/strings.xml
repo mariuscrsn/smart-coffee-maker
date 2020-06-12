@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Coffe Connect</string>
+    <string name="lblTemp">Temperatura del café:</string>
+    <string name="lblWater">Cantidad de agua</string>
+    <string name="lblAroma">Aroma:</string>
 </resources>
