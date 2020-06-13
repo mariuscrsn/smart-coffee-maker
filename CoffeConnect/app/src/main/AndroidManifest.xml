@@ -8,7 +8,16 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App">
+        android:theme="@style/Theme.MaterialComponents.DayNight">
+<!--         android:theme="@style/Theme.App">-->
+        <activity android:name=".CustomCoffeeActivity"
+            android:parentActivityName="com.unizar.seu.coffeConnect.MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.unizar.seu.coffeConnect.MainActivity" />
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

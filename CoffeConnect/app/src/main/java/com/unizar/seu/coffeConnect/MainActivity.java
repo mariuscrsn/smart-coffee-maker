@@ -1,140 +1,100 @@
 package com.unizar.seu.coffeConnect;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.SeekBar;
-import android.widget.TextClock;
-import android.widget.TextView;
+import android.text.Layout;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.GridView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NavUtils;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.material.navigation.NavigationView;
+import com.unizar.seu.coffeConnect.model.Coffee;
+import com.unizar.seu.coffeConnect.model.CoffeeAdapter;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    public static  final String EXTRA_AROMA = "com.example.seu.AROMA";
-    public static  final String EXTRA_WATER = "com.example.seu.WATER";
-    public static  final String EXTRA_TEMP = "com.example.seu.TEMP";
-    String[] tempLevel = {"BAJA", "MEDIA", "ALTA"};
-    final int MIN_WATER = 20, MIN_AROMA=5;
-    int aroma = MIN_AROMA;
-    int water = MIN_WATER;
-    int temp = 0; // water index
+
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle abdt;
+    private GridView gridView;
+    private CoffeeAdapter adapter;
+
+    public static Coffee[] rec_coffes = {
+            new Coffee("Personalizado", 100, 20, "ALTA", R.drawable.personal),
+            new Coffee("Espresso", 40, 10, "MEDIA", R.drawable.espresso),
+            new Coffee("Largo", 200, 20, "MEDIA", R.drawable.largo),
+            new Coffee("Capuchino", 80, 5, "MEDIA", R.drawable.cappuchino),
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Grid
+        gridView = (GridView) findViewById(R.id.recommend_grid);
+        adapter = new CoffeeAdapter(this, rec_coffes);
+        gridView.setAdapter(adapter);
+//        gridView.setOnItemClickListener(this);
 
-        Intent intent = getIntent();
-        // Aroma
-        SeekBar seekBarAroma = findViewById(R.id.seekBarAroma);
-        TextView txtAroma = findViewById(R.id.txtAroma);
-        aroma = intent.getIntExtra(EXTRA_AROMA, MIN_AROMA);
-        String aromaRes = aroma + " mg";
-        txtAroma.setText(aromaRes);
-        seekBarAroma.setProgress(aroma-MIN_AROMA);
+        // Toolbar
+        drawerLayout = findViewById(R.id.activity_main);
+        abdt = new ActionBarDrawerToggle(this, drawerLayout,  R.string.Open, R.string.Close);
+        abdt.setDrawerIndicatorEnabled(true);
 
-        seekBarAroma.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                aroma = progress+MIN_AROMA;
-                String aromaRes = aroma + " mg";
-                Log.d("Custom", "Aroma: " + aromaRes);
-                txtAroma.setText(aromaRes);
-            }
+        drawerLayout.addDrawerListener(abdt);
+        abdt.syncState();
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) { }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) { }
-        });
-
-        // Water
-        SeekBar seekBarWater = findViewById(R.id.seekBarWater);
-        TextView txtWater = findViewById(R.id.txtWater);
-        water = intent.getIntExtra(EXTRA_WATER, MIN_WATER);
-        String waterVol = water + " ml";
-        txtWater.setText(waterVol);
-        seekBarWater.setProgress(water-MIN_WATER);
-
-        seekBarWater.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                water = progress+MIN_WATER;
-                String waterVol = water + " ml";
-                Log.d("Custom", "Water: " + waterVol);
-                txtWater.setText(waterVol);
-            }
+        assert getSupportActionBar() != null;   //null check
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);   //show back button
+        final NavigationView nav_view = (NavigationView) findViewById(R.id.nav_view);
+        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
 
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+                switch (item.getItemId()){
+                    case R.id.home_nav:
+                        drawerLayout.closeDrawer(GravityCompat.START);
+                        closeOptionsMenu();
+                        break;
+                    case R.id.custom_nav:
+                        Intent i = new Intent(MainActivity.this ,CustomCoffeeActivity.class);
+                        startActivity(i);
+                        break;
+                    case R.id.stats_nav:
+                        Toast.makeText(MainActivity.this, "Stats", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.coffe_store_nav:
+                        Toast.makeText(MainActivity.this, "Shop", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
             }
         });
-
-        // Temperature
-        SeekBar seekBarTemp = findViewById(R.id.seekBarTemp);
-        TextView txtTemp = findViewById(R.id.txtTemp);
-        temp = intent.getIntExtra(EXTRA_TEMP, 0);
-        txtTemp.setText(tempLevel[temp]);
-        seekBarTemp.setProgress(temp);
-
-        seekBarTemp.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                temp=progress;
-                Log.d("Custom", String.valueOf(progress));
-                txtTemp.setText(tempLevel[temp]);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-
-    }
-
-    /** Called when the user taps the prepareX2 button */
-    public void prepareTwo(View view) {
-        // TODO: send data to
-        Log.i("Custom", "Preparing 2 coffees");
-        saveConfig(view);
-    }
-
-    /** Called when the user taps the prepare button */
-    public void prepareOne(View view) {
-        // TODO: send data to
-        Log.i("Custom", "Preparing 1 coffee");
-        saveConfig(view);
-    }
-
-    /** Called when the user taps the Save Config button */
-    public void saveConfig(View view) {
-        Log.i("Custom", "Saving config");
-        Intent intent = new Intent(this, MainActivity.class); // TODO: change it
-        intent.putExtra(EXTRA_AROMA, aroma);
-        intent.putExtra(EXTRA_WATER, water);
-        intent.putExtra(EXTRA_TEMP, temp);
-        startActivity(intent);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return abdt.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }
