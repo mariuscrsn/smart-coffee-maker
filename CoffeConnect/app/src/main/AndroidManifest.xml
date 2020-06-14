@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.unizar.seu.coffeConnect">
 
+<!-- MQTT requisites: access to internet, network state and background app execution as a service -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.DayNight">
-<!--         android:theme="@style/Theme.App">-->
+
+        <service android:name="org.eclipse.paho.android.service.MqttService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
         <activity android:name=".CustomCoffeeActivity"
             android:parentActivityName="com.unizar.seu.coffeConnect.MainActivity">
 
@@ -26,5 +33,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

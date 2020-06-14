@@ -14,5 +14,5 @@
     <string name="lblgTemp">Temp.</string>
     <string name="lblgAroma">Aroma</string>
     <string name="lblgWater">Agua</string>
-    <string name="lblState">Estado</string>
+    <string name="lblState">Estado de la cafetera</string>
 </resources>

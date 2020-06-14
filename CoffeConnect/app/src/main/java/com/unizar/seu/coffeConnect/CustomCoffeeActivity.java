@@ -9,16 +9,14 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.unizar.seu.coffeConnect.model.Coffee;
+
 public class CustomCoffeeActivity extends AppCompatActivity {
 
-    public static  final String EXTRA_AROMA = "com.example.seu.AROMA";
-    public static  final String EXTRA_WATER = "com.example.seu.WATER";
-    public static  final String EXTRA_TEMP = "com.example.seu.TEMP";
-    String[] tempLevel = {"BAJA", "MEDIA", "ALTA"};
+    public static  final String EXTRA_COFFEE = "com.example.seu.COFFEE";
+
     final int MIN_WATER = 20, MIN_AROMA=5;
-    int aroma = MIN_AROMA;
-    int water = MIN_WATER;
-    int temp = 0; // water index
+    private Coffee c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,9 @@ public class CustomCoffeeActivity extends AppCompatActivity {
         // Aroma
         SeekBar seekBarAroma = findViewById(R.id.seekBarAroma);
         TextView txtAroma = findViewById(R.id.txtAroma);
-        aroma = intent.getIntExtra(EXTRA_AROMA, MIN_AROMA);
+        c = (Coffee) intent.getSerializableExtra(EXTRA_COFFEE);
+        assert c != null;
+        int aroma = c.getAroma();
         String aromaRes = aroma + " mg";
         txtAroma.setText(aromaRes);
         seekBarAroma.setProgress(aroma-MIN_AROMA);
@@ -37,8 +37,8 @@ public class CustomCoffeeActivity extends AppCompatActivity {
         seekBarAroma.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                aroma = progress+MIN_AROMA;
-                String aromaRes = aroma + " mg";
+                c.setAroma(progress+MIN_AROMA);
+                String aromaRes = c.getAroma() + " mg";
                 Log.d("Custom", "Aroma: " + aromaRes);
                 txtAroma.setText(aromaRes);
             }
@@ -52,7 +52,7 @@ public class CustomCoffeeActivity extends AppCompatActivity {
         // Water
         SeekBar seekBarWater = findViewById(R.id.seekBarWater);
         TextView txtWater = findViewById(R.id.txtWater);
-        water = intent.getIntExtra(EXTRA_WATER, MIN_WATER);
+        int water = c.getWater();
         String waterVol = water + " ml";
         txtWater.setText(waterVol);
         seekBarWater.setProgress(water-MIN_WATER);
@@ -60,8 +60,8 @@ public class CustomCoffeeActivity extends AppCompatActivity {
         seekBarWater.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                water = progress+MIN_WATER;
-                String waterVol = water + " ml";
+                c.setWater(progress+MIN_WATER);
+                String waterVol = c.getWater() + " ml";
                 Log.d("Custom", "Water: " + waterVol);
                 txtWater.setText(waterVol);
             }
@@ -78,16 +78,15 @@ public class CustomCoffeeActivity extends AppCompatActivity {
         // Temperature
         SeekBar seekBarTemp = findViewById(R.id.seekBarTemp);
         TextView txtTemp = findViewById(R.id.txtTemp);
-        temp = intent.getIntExtra(EXTRA_TEMP, 0);
-        txtTemp.setText(tempLevel[temp]);
-        seekBarTemp.setProgress(temp);
+        txtTemp.setText(c.getTempName());
+        seekBarTemp.setProgress(c.getTemp());
 
         seekBarTemp.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                temp=progress;
+                c.setTemp(progress);
                 Log.d("Custom", String.valueOf(progress));
-                txtTemp.setText(tempLevel[temp]);
+                txtTemp.setText(c.getTempName());
             }
 
             @Override
@@ -122,9 +121,7 @@ public class CustomCoffeeActivity extends AppCompatActivity {
     public void saveConfig(View view) {
         Log.i("Custom", "Saving config");
         Intent intent = new Intent(this, MainActivity.class); // TODO: change it
-        intent.putExtra(EXTRA_AROMA, aroma);
-        intent.putExtra(EXTRA_WATER, water);
-        intent.putExtra(EXTRA_TEMP, temp);
+        intent.putExtra(EXTRA_COFFEE, c);
         startActivity(intent);
     }
 

@@ -37,6 +37,12 @@ public class CoffeeAdapter extends BaseAdapter {
         return coffees[position];
     }
 
+    public void updatePersonalCoffee(Coffee newC){
+        coffees[0].setAroma(newC.getAroma());
+        coffees[0].setWater(newC.getWater());
+        coffees[0].setTemp(newC.getTemp());
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -56,7 +62,7 @@ public class CoffeeAdapter extends BaseAdapter {
         nameCoffee.setText(item.getName());
         aroma.setText(String.valueOf(item.getAroma()));
         water.setText(String.valueOf(item.getWater()));
-        temp.setText(item.getTemp());
+        temp.setText(item.getTempName());
         return convertView;
     }
 

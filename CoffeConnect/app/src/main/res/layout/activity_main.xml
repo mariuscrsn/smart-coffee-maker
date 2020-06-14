@@ -16,20 +16,22 @@
             android:id="@+id/status_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/btnTurnOn_Off"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="hola" />
+                android:backgroundTint="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/turn_on"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:background="#989393"
+                android:background="#B8DEEF"
                 android:gravity="center"
                 android:minHeight="140dp"
                 android:orientation="vertical">
@@ -37,17 +39,30 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
                     android:text="@string/lblState"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="#736F6F"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imgState"
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_coffee_machine"></ImageView>
+                    android:src="@drawable/ic_coffee_machine"
+                    android:visibility="visible"
+                    tools:ignore="ContentDescription" />
+
+                <ProgressBar
+                    android:id="@+id/machine_busy"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:minWidth="40dp"
+                    android:minHeight="40dp"
+                    android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/txtStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAlignment="center" />
