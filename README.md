@@ -1,4 +1,6 @@
-# smart-coffee-maker
+# CoffeConnect
+
+<img src="src/CoffeConnect/app/src/main/ic_launcher-playstore.png" width="25%"/>
 
 ## Intro
 This works aim to apply reverse engineering to a fully
@@ -10,6 +12,10 @@ Moreover, an **Android app** will be developed to allow users to managed their c
 
 Note: **In the following sections a brief tutorial is presented, for further information please take a look at [the report](docs/../doc/article.pdf)**
 
+## Legal info
+Due to the fact that smart appliances are an emerging sector, there is not yet evidence of any regulations issued by the EC. However, the UK government is working to create a standard for smart appliances.
+Please feel free to contact me if you are aware of any regulations regarding smart appliances. 
+
 ## Build
 - To analyze communication protocolo connect the appropriate pins to the raspberry and execute the following command:
 
@@ -19,7 +25,7 @@ Note: **In the following sections a brief tutorial is presented, for further inf
 - To use the Android App execute the following commands. In addition, you will must complete the MqttInfo.java file with your MQTT broker credentials. 
     
     `cd src/CoffeConnect/ && ./gradlew`
-    
+
     Finally install the app on your Android device.
 
 
@@ -84,5 +90,3 @@ messages about changes on the coffee machine’s status.
 <img src="doc/imgs/main_act.jpg" width="33%"/>
 <img src="doc/imgs/custom_act.jpg" width="33%"/>
 <img src="doc/imgs/nav_bar.jpg" width="33%"/>
-
-## Legal info
