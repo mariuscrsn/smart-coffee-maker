@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Coffe Connect</string>
+    <string name="lblTemp">Temperatura del café:</string>
+    <string name="lblWater">Cantidad de agua</string>
+    <string name="lblAroma">Aroma:</string>
+    <string name="home">Inicio</string>
+    <string name="machines">Tus cafeteras</string>
+    <string name="custom">Personalizar</string>
+    <string name="coffe_store">Comprar café</string>
+    <string name="stats">Estadísticas</string>
+    <string name="Open">Estadísticas</string>
+    <string name="Close">Estadísticas</string>
+    <string name="nombre_transicion_imagen">hola</string>
+    <string name="lblgTemp">Temp.</string>
+    <string name="lblgAroma">Aroma</string>
+    <string name="lblgWater">Agua</string>
+    <string name="lblState">Estado de la cafetera</string>
+</resources>
